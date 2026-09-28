@@ -1,0 +1,1 @@
+{ "name": "MP4  (H.264)", "ext": "mp4", "args": ["-c:v", "libx264", "-preset", "medium", "-crf", "23", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart"] }

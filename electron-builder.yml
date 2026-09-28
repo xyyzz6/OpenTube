@@ -1,0 +1,21 @@
+appId: com.opentube.app
+productName: OpenTube
+directories:
+  output: dist
+files:
+  - main/**
+  - renderer/**
+  - presets/**
+  - package.json
+extraResources:
+  - from: bin
+    to: bin
+    filter:
+      - "*.exe"
+win:
+  target:
+    - nsis
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true

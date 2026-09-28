@@ -1,0 +1,1 @@
+{ "name": "Android 720p", "ext": "mp4", "args": ["-c:v", "libx264", "-preset", "medium", "-crf", "24", "-vf", "scale=-2:720", "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart"] }

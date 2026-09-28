@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;" />
+  <title>OpenTube</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="app-mark">O</span>
+        <span class="logo">OpenTube</span>
+      </div>
+      <nav class="tabs">
+        <button id="tab-download" class="tab active">下载器</button>
+        <button id="tab-browser" class="tab">在线</button>
+      </nav>
+      <div class="spacer"></div>
+      <button id="btn-settings" class="tab side-item">设置</button>
+    </aside>
+
+    <div class="content">
+      <!-- 下载器页签 -->
+      <main id="page-download" class="page">
+        <section class="parse-area">
+          <input id="url-input" type="text" placeholder="粘贴视频或播放列表链接，回车解析（需登录的站点请先在「在线」页签登录）…" spellcheck="false" />
+          <button id="btn-parse" class="primary">解析</button>
+        </section>
+        <div id="parse-error" class="error hidden"></div>
+
+        <section id="video-result" class="card hidden">
+          <div class="video-head">
+            <div class="video-title" id="video-title"></div>
+            <div class="video-meta" id="video-meta"></div>
+          </div>
+          <div class="fmt-toolbar">
+            <label><input type="radio" name="fmt" value="bv*+ba/b" checked /> 最佳（自动合并音视频）</label>
+            <label><input type="radio" name="fmt" value="ba/b" /> 仅音频</label>
+            <span class="muted">或从下面选择具体格式：</span>
+          </div>
+          <div class="fmt-table" id="fmt-table"></div>
+          <div class="card-actions">
+            <button id="btn-download" class="primary">下载</button>
+          </div>
+        </section>
+
+        <section id="playlist-result" class="card hidden">
+          <div class="video-head">
+            <div class="video-title" id="pl-title"></div>
+            <div class="video-meta" id="pl-meta"></div>
+          </div>
+          <div class="pl-toolbar">
+            <button id="pl-all" class="ghost small">全选</button>
+            <button id="pl-none" class="ghost small">全不选</button>
+            <span class="muted" id="pl-count"></span>
+          </div>
+          <div class="pl-list" id="pl-list"></div>
+          <div class="card-actions">
+            <button id="btn-pl-download" class="primary">下载选中项</button>
+          </div>
+        </section>
+
+        <section class="jobs-tabs-row">
+          <div class="seg">
+            <button id="job-seg-active" class="seg-btn active">正在下载</button>
+            <button id="job-seg-done" class="seg-btn">已下载</button>
+          </div>
+        </section>
+        <section class="jobs-area">
+          <div id="jobs-list"></div>
+        </section>
+      </main>
+
+      <!-- 在线（内置浏览器）页签 -->
+      <main id="page-browser" class="page hidden">
+        <section class="browser-bar">
+          <button id="browser-home" class="icon-btn" title="主页">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M2.5 7.2 8 2.6l5.5 4.6v5.3a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1z"/></svg>
+          </button>
+          <button id="browser-back" class="icon-btn" title="后退">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 5 8l5 5"/></svg>
+          </button>
+          <button id="browser-forward" class="icon-btn" title="前进">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg>
+          </button>
+          <button id="browser-refresh" class="icon-btn" title="刷新">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8a5 5 0 1 1-1.5-3.6"/><path d="M13 2.6v3.2h-3.2"/></svg>
+          </button>
+          <input id="browser-url" type="text" placeholder="输入网址或搜索内容…" spellcheck="false" />
+          <button id="browser-go" class="icon-btn" title="打开">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
+          </button>
+          <button id="dl-badge" class="dl-badge hidden" title="嗅探到的可下载内容">可下载链接 (0)</button>
+          <button id="sniff-toggle" class="icon-btn" title="显示 / 隐藏嗅探面板">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="2" y="3" width="12" height="10" rx="2.2"/><path d="M6.6 3v10"/></svg>
+          </button>
+          <button id="browser-clear" class="icon-btn" title="清空嗅探结果">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5 13.5 6.5 7 13H3.5L2 11.5z"/><path d="M6.5 5.5 10.5 9.5"/></svg>
+          </button>
+        </section>
+
+        <div class="browser-wrap">
+          <aside id="sniff-panel" class="sniff-panel">
+            <div class="sniff-head">
+              <span>嗅探到的媒体</span>
+              <div class="sniff-head-actions">
+                <button id="sniff-clear" class="ghost small">清空</button>
+                <button id="sniff-collapse" class="icon-btn" title="隐藏面板">
+                  <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 5 8l5 5"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="sniff-toolbar">
+              <select id="sniff-filter" title="按格式过滤">
+                <option value="">全部格式</option>
+              </select>
+              <button id="sniff-sel-all" class="ghost small">全选</button>
+              <button id="sniff-sel-none" class="ghost small">反选</button>
+              <button id="sniff-download" class="primary small">批量下载</button>
+            </div>
+            <div class="sniff-count" id="sniff-count"></div>
+            <div id="sniff-list" class="sniff-list">
+              <div class="sniff-empty">浏览网页时，页面中的视频会自动出现在这里，可勾选后批量下载。</div>
+            </div>
+          </aside>
+
+          <div id="browser-container" class="browser-container">
+            <!-- 起始页：未导航时填充空白区域（绝对定位覆盖，不影响容器尺寸） -->
+            <div id="start-page" class="start-page">
+              <div id="quick-sites" class="quick-sites"></div>
+              <button id="sites-reset" class="sites-reset" type="button">恢复默认站点</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

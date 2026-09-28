@@ -1,0 +1,1 @@
+{ "name": "MP3 音频", "ext": "mp3", "args": ["-vn", "-c:a", "libmp3lame", "-q:a", "2"] }

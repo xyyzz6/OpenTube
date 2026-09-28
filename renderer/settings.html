@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'" />
+  <title>OpenTube 设置</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding: 20px; gap: 14px; }
+    .row { display: flex; flex-direction: column; gap: 6px; }
+    .row-inline { display: flex; gap: 8px; }
+    .row-inline input { flex: 1; }
+    input[type="text"], input[type="number"] {
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+      padding: 8px 12px; border-radius: var(--radius); outline: none;
+    }
+    input:focus { border-color: var(--brand); }
+    .status { color: var(--brand); font-size: 13px; min-height: 18px; }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <span class="muted">下载目录</span>
+    <div class="row-inline">
+      <input id="download-dir" type="text" />
+      <button id="choose-dir" class="ghost">浏览…</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="muted">同时下载任务数</span>
+    <input id="max-concurrent" type="number" min="1" max="8" style="width:100px" />
+  </div>
+  <div class="row">
+    <span class="muted">yt-dlp.exe 路径（留空自动定位）</span>
+    <div class="row-inline">
+      <input id="yt-dlp-path" type="text" />
+      <button id="choose-ytdlp" class="ghost">浏览…</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="muted">ffmpeg.exe 路径（留空自动定位）</span>
+    <div class="row-inline">
+      <input id="ffmpeg-path" type="text" />
+      <button id="choose-ffmpeg" class="ghost">浏览…</button>
+    </div>
+  </div>
+  <div class="row">
+    <span class="muted">网络代理（可选，如 http://127.0.0.1:10808，用于访问 YouTube 等境外站，留空直连）</span>
+    <input id="proxy-url" type="text" placeholder="http://127.0.0.1:10808" />
+  </div>
+  <div class="row-inline">
+    <button id="btn-update" class="ghost">更新 yt-dlp</button>
+    <button id="btn-save" class="primary">保存</button>
+  </div>
+  <div id="status" class="status"></div>
+  <script src="js/settings.js"></script>
+</body>
+</html>

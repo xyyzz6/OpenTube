@@ -1,0 +1,1 @@
+{ "name": "HEVC 高压缩", "ext": "mp4", "args": ["-c:v", "libx265", "-crf", "26", "-tag:v", "hvc1", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart"] }

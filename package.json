@@ -1,0 +1,17 @@
+{
+  "name": "opentube",
+  "version": "0.1.0",
+  "description": "OpenTube - 开源视频下载器 (yt-dlp + ffmpeg)",
+  "main": "main/main.js",
+  "author": "OpenTube",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "bootstrap": "node scripts/bootstrap.js",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

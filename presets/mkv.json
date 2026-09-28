@@ -1,0 +1,1 @@
+{ "name": "MKV 封装（无损）", "ext": "mkv", "args": ["-c", "copy"] }
